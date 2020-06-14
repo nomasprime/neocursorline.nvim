@@ -12,5 +12,9 @@ function! neocursorline#install()
   UpdateRemotePlugins
 endfunction
 
+augroup neocursorline
+  autocmd ColorScheme * :call NeoCursorLine()
+augroup END
+
 let &cpo = s:cpo_save
 unlet s:cpo_save
