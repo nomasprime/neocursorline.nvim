@@ -42,14 +42,18 @@ let dim, pop, visual;
 
 module.exports = plugin => {
   plugin.registerFunction('NeoCursorLine', async (args) => {
+    args = args[0]
+
     try {
-      dim = dim || args[0];
-      pop = pop || args[1];
-      visual = visual || args[2];
+      const dim = args['dim'] === undefined ? 6 : parseInt(args['dim']);
+      const cursorColumnDim = args['cursor_column_dim'] === undefined ? dim : parseInt(args['cursor_column_dim']);
+      const pop = args['pop'] === undefined ? true : args['pop'] == true;
+      const visual = args['visual'] === undefined ? true : args['visual'] == true;
 
       const luminance = await getLuminance(plugin);
 
       updateHighlight(plugin, { source: 'Normal', target: 'Cursorline' }, dim, pop, luminance);
+      updateHighlight(plugin, { source: 'Normal', target: 'CursorColumn' }, cursorColumnDim, false, luminance);
 
       if (visual) {
         updateHighlight(plugin, { target: 'Visual' }, dim, pop, luminance);
