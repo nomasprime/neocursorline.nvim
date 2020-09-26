@@ -1,7 +1,7 @@
 const convert = require('color-convert');
 
 async function getLuminance(plugin) {
-  const {background} = await plugin.nvim.getHighlightByName('Normal');
+  const {background} = await plugin.nvim.getHighlightByName('Conceal');
   const normalBackground = convert.hex.hsl(background.toString(16));
 
   return (normalBackground[2] < 50 ? 'dark' : 'light');
@@ -52,8 +52,8 @@ module.exports = plugin => {
 
       const luminance = await getLuminance(plugin);
 
-      updateHighlight(plugin, { source: 'Normal', target: 'Cursorline' }, dim, pop, luminance);
-      updateHighlight(plugin, { source: 'Normal', target: 'CursorColumn' }, cursorColumnDim, false, luminance);
+      updateHighlight(plugin, { source: 'Conceal', target: 'Cursorline' }, dim, pop, luminance);
+      updateHighlight(plugin, { source: 'Conceal', target: 'CursorColumn' }, cursorColumnDim, false, luminance);
 
       if (visual) {
         updateHighlight(plugin, { target: 'Visual' }, dim, pop, luminance);
